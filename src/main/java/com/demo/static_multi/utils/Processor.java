@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class Processor {
-    
+
     public List<Integer> process1(List<Integer> values) {
-        return values.stream().map(SizeUtils::increase).toList();        
+        return values.stream().map(SizeUtils::increase).toList();
     }
 
     @SneakyThrows
@@ -20,11 +20,12 @@ public class Processor {
         try {
             Map<Integer, Future<Integer>> futures = new LinkedHashMap<>();
 
+
             for (int value : values) {
-                futures.put(value, executor.submit(() -> value * 3));
+                futures.put(value, executor.submit(() -> SizeUtils.increase(value)));
             }
             List<Integer> result = new ArrayList<>();
-            for( int value : futures.keySet() ) {
+            for (int value : futures.keySet()) {
                 Future<Integer> future = futures.get(value);
                 result.add(future.get());
             }
